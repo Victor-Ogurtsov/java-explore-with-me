@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class StatsServiceImpl implements StatsService {
                 statsDtoList.add(statsDto);
             }
         }
-        return statsDtoList;
+        return statsDtoList.stream().sorted(Comparator.comparing(StatsDto::getHits).reversed()).toList();
     }
 
     LocalDateTime getLocalDateTimeFromEncodeString(String encodeString) {
