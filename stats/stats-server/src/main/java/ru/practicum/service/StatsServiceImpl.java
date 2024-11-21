@@ -9,10 +9,8 @@ import ru.practicum.EndpointHitRepository;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.mapper.StatsDtoMapper;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -35,11 +33,9 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<StatsDto> getStats(String start, String end, List<String> uris, Boolean unique) {
-        LocalDateTime startLdt = getLocalDateTimeFromEncodeString(start);
-        LocalDateTime endLdt = getLocalDateTimeFromEncodeString(end);
+    public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
 
-        List<EndpointHit> endpointHitLis = endpointHitRepository.getEndpointHitListByStartAndEnd(startLdt, endLdt);
+        List<EndpointHit> endpointHitLis = endpointHitRepository.getEndpointHitListByStartAndEnd(start, end);
 
         if (!(uris == null)) {
             endpointHitLis = endpointHitLis.stream()
@@ -65,10 +61,5 @@ public class StatsServiceImpl implements StatsService {
             }
         }
         return statsDtoList.stream().sorted(Comparator.comparing(StatsDto::getHits).reversed()).toList();
-    }
-
-    LocalDateTime getLocalDateTimeFromEncodeString(String encodeString) {
-        String stringDecode = URLDecoder.decode(encodeString, StandardCharsets.UTF_8);
-        return LocalDateTime.parse(stringDecode, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
