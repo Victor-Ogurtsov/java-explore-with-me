@@ -22,13 +22,13 @@ public class StatsClient {
     public EndpointHitDto addEndpointHit(EndpointHitDto endpointHitDto) {
         HttpEntity<EndpointHitDto> request = new HttpEntity<>(endpointHitDto);
         ResponseEntity<EndpointHitDto> response = restTemplate
-                .exchange("http://localhost:9090/hit", HttpMethod.POST, request, EndpointHitDto.class);
+                .exchange("http://stats-server:9090/hit", HttpMethod.POST, request, EndpointHitDto.class);
         return response.getBody();
     }
 
     public List<StatsDto> getStats(String start, String end, List<String> uris, String unique) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:9090/stats")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://stats-server:9090/stats")
                 .queryParam("start", start)
                 .queryParam("end", end)
                 .queryParam("unique", unique);
