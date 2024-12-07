@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class ViolationRestrictException extends RuntimeException {
-    String reason;
-    String status;
+    private String reason;
+    private String status;
 
     public ViolationRestrictException(String status, String reason, String message) {
         super(message);

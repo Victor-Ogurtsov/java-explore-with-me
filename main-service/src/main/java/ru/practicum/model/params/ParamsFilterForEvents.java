@@ -11,11 +11,11 @@ import java.util.List;
 @Setter
 @ToString
 public class ParamsFilterForEvents {
-    List<Long> users;
-    List<State> states;
-    List<Long> categories;
-    String rangeStart;
-    String rangeEnd;
-    Integer from;
-    Integer size;
+    private List<Long> users;
+    private List<State> states;
+    private List<Long> categories;
+    private String rangeStart;
+    private String rangeEnd;
+    private Integer from;
+    private Integer size;
 }

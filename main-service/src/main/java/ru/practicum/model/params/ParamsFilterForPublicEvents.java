@@ -16,8 +16,8 @@ public class ParamsFilterForPublicEvents {
     private Boolean paid;
     private String rangeStart;
     private String rangeEnd;
-    Boolean onlyAvailable;
-    Sort sort;
-    Integer from;
-    Integer size;
+    private Boolean onlyAvailable;
+    private Sort sort;
+    private Integer from;
+    private Integer size;
 }

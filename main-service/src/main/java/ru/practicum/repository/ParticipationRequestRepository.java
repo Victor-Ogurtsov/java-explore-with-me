@@ -41,15 +41,6 @@ public interface ParticipationRequestRepository extends JpaRepository<Participat
                     "from ParticipationRequest as p " +
                     "JOIN FETCH p.event as e " +
                     "JOIN FETCH p.requester as r " +
-                    "where p.id in ?1 "
-    )
-    List<ParticipationRequest> findAlLParticipationRequestListByRequestIdList(List<Long> requestIdList);
-
-    @Query(
-            "select p " +
-                    "from ParticipationRequest as p " +
-                    "JOIN FETCH p.event as e " +
-                    "JOIN FETCH p.requester as r " +
                     "where e.id in ?1 and p.status = 'CONFIRMED' "
     )
     List<ParticipationRequest> findAlLConfirmedParticipationRequestListByEventIdList(List<Long> eventIdList);

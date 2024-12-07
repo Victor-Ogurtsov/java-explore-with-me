@@ -19,37 +19,14 @@ import java.util.Set;
 public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "compilations_events",
             joinColumns = { @JoinColumn(name = "compilation_id") },
             inverseJoinColumns = { @JoinColumn(name = "event_id") })
-    Set<Event> events = new HashSet<Event>();
+    private  Set<Event> events = new HashSet<Event>();
     @Column(name = "pinned")
-    Boolean pinned = false;
+    private Boolean pinned = false;
     @Column(name = "title")
-    String title;
+    private String title;
 }
-/*
-@Entity
-public class Store {
-
-    @ManyToMany
-    @JoinTable(name = “store_product”,
-           joinColumns = { @JoinColumn(name = “fk_store”) },
-           inverseJoinColumns = { @JoinColumn(name = “fk_product”) })
-    private Set<Product> products = new HashSet<Product>();
-
-    …
-}
-
-CREATE TABLE IF NOT EXISTS compilations (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    pinned boolean,
-    title varchar(50) );
-
-CREATE TABLE IF NOT EXISTS compilations (
-    compilation_id BIGINT,
-    event_id BIGINT,
-    CONSTRAINT PK_compilations_events PRIMARY KEY (compilation_id, event_id) );
- */

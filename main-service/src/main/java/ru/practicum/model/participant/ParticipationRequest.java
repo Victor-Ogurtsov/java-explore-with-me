@@ -18,13 +18,13 @@ import java.time.LocalDateTime;
 public class ParticipationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(name = "created")
-    LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now();
     @ManyToOne(fetch = FetchType.LAZY)
-    Event event;
+    private Event event;
     @ManyToOne(fetch = FetchType.LAZY)
-    User requester;
+    private User requester;
     @Enumerated(EnumType.STRING)
-    Status status = Status.PENDING;
+    private Status status = Status.PENDING;
 }

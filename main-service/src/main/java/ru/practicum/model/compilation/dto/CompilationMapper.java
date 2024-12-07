@@ -14,19 +14,3 @@ public interface CompilationMapper {
     @Mapping(source = "eventShortDtoList", target = "events")
     CompilationDto toCompilationDto(Compilation compilation, List<EventShortDto> eventShortDtoList);
 }
-/*
-public class Compilation {
-
-    Long id;
-    Set<Event> events = new HashSet<Event>();
-    Boolean pinned = false;
-    String title;
-}
-
-public class CompilationDto {
-    Long id;
-    List<EventShortDto> events;
-    Boolean pinned = false;
-    String title;
-}
- */

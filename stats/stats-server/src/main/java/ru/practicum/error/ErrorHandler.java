@@ -11,11 +11,13 @@ import java.time.format.DateTimeFormatter;
 @RestControllerAdvice
 public class ErrorHandler {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleIncorrectRequestException(final IncorrectRequestException e) {
 
         return new ErrorResponse(e.getStatus(), e.getReason(), e.getMessage(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                LocalDateTime.now().format(DATE_TIME_FORMATTER));
     }
 }

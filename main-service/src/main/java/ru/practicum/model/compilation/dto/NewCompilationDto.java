@@ -13,9 +13,9 @@ import java.util.List;
 @Getter
 @ToString
 public class NewCompilationDto {
-    List<Long> events = new ArrayList<>();
-    Boolean pinned = false;
+    private List<Long> events = new ArrayList<>();
+    private Boolean pinned = false;
     @NotBlank
     @Size(min = 1, max = 50)
-    String title;
+    private String title;
 }

@@ -8,10 +8,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ParticipationRequestDto {
-    Long id;
-    String created;
-    Long event;
-    Long requester;
-    String status;
+    private Long id;
+    private String created;
+    private Long event;
+    private Long requester;
+    private String status;
 }
 

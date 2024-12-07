@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @ToString
 public class CompilationDto {
-    Long id;
-    List<EventShortDto> events;
-    Boolean pinned = false;
-    String title;
+    private Long id;
+    private List<EventShortDto> events;
+    private Boolean pinned = false;
+    private String title;
 }

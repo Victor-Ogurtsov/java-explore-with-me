@@ -15,11 +15,3 @@ public interface NewEventMapper {
             dateFormat = "yyyy-MM-dd HH:mm:ss")
     Event fromNewEventDto(NewEventDto newEventDto);
 }
-/*
-private Float locationLat;
-private Float locationLon;
-
-private Location location;
-    private Float lat;
-    private Float lon;
- */

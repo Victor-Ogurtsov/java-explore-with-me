@@ -66,8 +66,7 @@ public class PrivateController {
     @PatchMapping("/{userId}/events/{eventId}/requests")
     EventRequestStatusUpdateResult updateStatusParticipationRequest(@PathVariable Long userId,
                                                                     @PathVariable Long eventId,
-                                                                    @RequestBody EventRequestStatusUpdateRequest request
-                                                                       /*@RequestBody EventRequestStatusUpdateRequestDto eventRequestStatusUpdateRequestDto*/) {
+                                                                    @RequestBody EventRequestStatusUpdateRequest request) {
         log.info("Запрос на изменение статуса списка запросов на участие в событии пользователя userId = {}, eventId = {}, " +
                 "eventRequestStatusUpdateRequestDto = {}", userId, eventId, request);
         return participationRequestService.updateStatusParticipationRequest(userId, eventId, request);
