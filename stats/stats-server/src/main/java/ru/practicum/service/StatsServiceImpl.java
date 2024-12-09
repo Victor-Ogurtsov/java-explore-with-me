@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.EndpointHit;
 import ru.practicum.dto.EndpointHitDto;
+import ru.practicum.error.IncorrectRequestException;
 import ru.practicum.mapper.EndpointHitMapper;
 import ru.practicum.EndpointHitRepository;
 import ru.practicum.dto.StatsDto;
@@ -34,17 +35,18 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-
-        List<EndpointHit> endpointHitLis = endpointHitRepository.getEndpointHitListByStartAndEnd(start, end);
-
+        if (start.isAfter(end)) {
+            throw new IncorrectRequestException("BAD_REQUEST", "Incorrectly made request.",
+                    "Дата начала периода выборки позже даты конца периода!");
+        }
+        List<EndpointHit> endpointHitList = endpointHitRepository.getEndpointHitListByStartAndEnd(start, end);
         if (!(uris == null)) {
-            endpointHitLis = endpointHitLis.stream()
+            endpointHitList = endpointHitList.stream()
                     .filter(endpointHit -> uris.contains(endpointHit.getUri())).toList();
         }
 
         List<StatsDto> statsDtoList = new ArrayList<>();
-
-        Map<String, List<EndpointHit>> endpointHitByAppMap = endpointHitLis.stream().collect(Collectors.groupingBy(EndpointHit::getApp));
+        Map<String, List<EndpointHit>> endpointHitByAppMap = endpointHitList.stream().collect(Collectors.groupingBy(EndpointHit::getApp));
         for (String app : endpointHitByAppMap.keySet()) {
             List<EndpointHit> endpointHitByAppList = endpointHitByAppMap.get(app);
             Map<String, List<EndpointHit>> endpointHitByUriMap = endpointHitByAppList.stream().collect(Collectors.groupingBy(EndpointHit::getUri));
