@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.model.comment.dto.CommentDto;
+import ru.practicum.model.comment.dto.NewComment;
 import ru.practicum.model.event.dto.EventFullDto;
 import ru.practicum.model.event.dto.EventShortDto;
 import ru.practicum.model.event.dto.NewEventDto;
@@ -13,6 +15,7 @@ import ru.practicum.model.participant.dto.ParticipationRequestDto;
 import ru.practicum.model.status.EventRequestStatusUpdateRequest;
 
 import ru.practicum.model.status.EventRequestStatusUpdateResult;
+import ru.practicum.service.comment.CommentService;
 import ru.practicum.service.event.EventService;
 import ru.practicum.service.participant.ParticipationRequestService;
 
@@ -26,6 +29,7 @@ public class PrivateController {
 
     private final EventService eventService;
     private final ParticipationRequestService participationRequestService;
+    private final CommentService commentService;
 
     @PostMapping("/{userId}/events")
     @ResponseStatus(HttpStatus.CREATED)
@@ -89,5 +93,20 @@ public class PrivateController {
     ParticipationRequestDto cancelParticipationRequest(@PathVariable Long userId, @PathVariable Long requestId) {
         log.info("Запрос на отмену запроса на участие в событии от пользователя userId = {}, requestId = {}", userId, requestId);
         return participationRequestService.revokeParticipationRequest(userId, requestId);
+    }
+
+    @PostMapping("/{userId}/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    CommentDto addComments(@PathVariable Long userId, @RequestParam Long eventId, @RequestBody @Valid NewComment newComment) {
+        log.info("Запрос на добавление комментария в событии userId = {}, eventId = {}, newComment = {} ", userId,
+                eventId, newComment);
+        return commentService.addComments(userId, eventId, newComment);
+    }
+
+    @PatchMapping("/{userId}/comments/{commentId}")
+    CommentDto updateComments(@PathVariable Long userId, @PathVariable Long commentId, @RequestBody @Valid NewComment newComment) {
+        log.info("Запрос на обновления комментария в событии userId = {}, commentId = {}, newComment = {} ", userId,
+                commentId, newComment);
+        return commentService.updateComments(userId, commentId, newComment);
     }
 }

@@ -38,4 +38,23 @@ CREATE TABLE IF NOT EXISTS compilations_events (
     event_id BIGINT,
     CONSTRAINT PK_compilations_events PRIMARY KEY (compilation_id, event_id) );
 
+CREATE TABLE IF NOT EXISTS comments (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    text varchar(5000),
+    commentator_id BIGINT,
+    event_id BIGINT,
+    created timestamp,
+    status varchar(50),
+    CONSTRAINT fk_comments_to_events FOREIGN KEY(event_id) REFERENCES events(id),
+    CONSTRAINT fk_comments_to_users FOREIGN KEY(commentator_id) REFERENCES users(id) );
+
+CREATE TABLE IF NOT EXISTS complaints (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    description varchar(5000),
+    comment_id BIGINT,
+    created timestamp,
+    status varchar(50),
+    CONSTRAINT fk_complaints_to_comments FOREIGN KEY(comment_id) REFERENCES comments(id) );
+
+
 

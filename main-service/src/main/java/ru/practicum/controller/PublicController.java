@@ -1,19 +1,23 @@
 package ru.practicum.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.category.dto.CategoryDto;
+import ru.practicum.model.comment.dto.CommentDto;
 import ru.practicum.model.compilation.dto.CompilationDto;
+import ru.practicum.model.complaint.dto.ComplaintCommentDto;
+import ru.practicum.model.complaint.dto.NewComplaintComment;
 import ru.practicum.model.event.dto.EventFullDto;
 import ru.practicum.model.params.ParamsFilterForPublicEvents;
 import ru.practicum.model.sort.Sort;
 import ru.practicum.service.category.CategoryService;
+import ru.practicum.service.comment.CommentService;
 import ru.practicum.service.compilation.CompilationService;
+import ru.practicum.service.complaint.ComplaintCommentService;
 import ru.practicum.service.event.EventService;
 
 import java.util.List;
@@ -26,6 +30,8 @@ public class PublicController {
     private final CategoryService categoryService;
     private final EventService eventService;
     private final CompilationService compilationService;
+    private final CommentService commentService;
+    private final ComplaintCommentService complaintCommentService;
 
     @GetMapping("/categories")
     List<CategoryDto> getCategoryList(@RequestParam(defaultValue = "0") Integer from,
@@ -84,5 +90,19 @@ public class PublicController {
     CompilationDto getCompilation(@PathVariable Long compId) {
         log.info("Запрос на получение подборок событий по compId = {}", compId);
         return  compilationService.getCompilation(compId);
+    }
+
+    @GetMapping("/comments/{eventId}")
+    List<CommentDto> getCommentList(@PathVariable Long eventId) {
+        log.info("Запрос на получение списка комментариев к событию по eventId = {}", eventId);
+        return commentService.getCommentList(eventId);
+    }
+
+    @PostMapping("/complaints/{commentId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    ComplaintCommentDto addComplaintComment(@PathVariable Long commentId, @RequestBody @Valid NewComplaintComment newComplaintComment) {
+        log.info("Запрос на добавление жалобы на комментарий события commentId = {}, newComplaintComment = {} ",
+                commentId, newComplaintComment);
+        return complaintCommentService.addComplaintComment(commentId, newComplaintComment);
     }
 }
