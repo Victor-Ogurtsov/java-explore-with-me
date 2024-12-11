@@ -34,3 +34,6 @@
 #### PATCH /admin/comments/{commentId}/canceled
 
 Если жалоба подтверждена администратором, он меняет статус комментария  на CANCELED и тот больше не отображается среди комментариев к событию.
+
+### Pull requests
+https://github.com/Victor-Ogurtsov/java-explore-with-me/pull/4
