@@ -6,8 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import ru.practicum.model.comment.dto.CommentDto;
 import ru.practicum.model.compilation.dto.CompilationDto;
 import ru.practicum.model.compilation.dto.NewCompilationDto;
+import ru.practicum.model.complaint.StatusComplaint;
+import ru.practicum.model.complaint.dto.ComplaintCommentDto;
 import ru.practicum.model.event.update.UpdateEventAdminRequest;
 import ru.practicum.model.state.State;
 import ru.practicum.model.category.dto.CategoryDto;
@@ -16,7 +19,9 @@ import ru.practicum.model.params.ParamsFilterForEvents;
 import ru.practicum.model.event.dto.EventFullDto;
 import ru.practicum.model.user.dto.NewUserRequest;
 import ru.practicum.service.category.CategoryService;
+import ru.practicum.service.comment.CommentService;
 import ru.practicum.service.compilation.CompilationService;
+import ru.practicum.service.complaint.ComplaintCommentService;
 import ru.practicum.service.event.EventService;
 import ru.practicum.service.user.UserService;
 import ru.practicum.model.user.dto.UserDto;
@@ -33,6 +38,8 @@ public class AdminController {
     private final CategoryService categoryService;
     private final EventService eventService;
     private final CompilationService compilationService;
+    private final CommentService commentService;
+    private final ComplaintCommentService complaintCommentService;
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -119,5 +126,18 @@ public class AdminController {
     CompilationDto updateCompilation(@PathVariable Long compId, @RequestBody NewCompilationDto newCompilationDto) {
         log.info("Запрос на обновление подборки событий compId = {}, newCompilationDto = {} ", compId, newCompilationDto);
         return compilationService.updateCompilation(compId, newCompilationDto);
+    }
+
+    @PatchMapping("/comments/{commentId}/canceled")
+    CommentDto canceledComment(@PathVariable Long commentId) {
+        log.info("Запрос на скрытие комментария к событию commentId = {} ", commentId);
+        return commentService.canceledComment(commentId);
+    }
+
+    @PatchMapping("/complaint/{complaintId}")
+    ComplaintCommentDto updateComplaintComment(@PathVariable Long complaintId, @RequestParam StatusComplaint status) {
+        log.info("Запрос на обработку и изменение статуса жалобы на комментарий события complaintId = {}, status = {} ",
+                complaintId, status);
+        return complaintCommentService.updateComplaintComment(complaintId, status);
     }
 }
